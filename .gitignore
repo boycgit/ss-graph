@@ -1,0 +1,14 @@
+.DS_Store
+node_modules
+dist
+npm-debug.log
+
+coverage/
+.happypack
+.pagedata.json
+.pagedata.json.lock
+out/
+.vscode
+
+.build.cjs
+.build.es

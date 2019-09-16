@@ -19,7 +19,6 @@ describe('GraphVertex - 节点', () => {
         expect(vertex.value).toBe('A');
         expect(vertex.toString()).toBe('A');
         expect(vertex.getKey()).toBe('A');
-        expect(vertex.edges.toArray()).toEqual([]);
         expect(vertex.getEdges()).toEqual([]);
     });
 
@@ -181,9 +180,10 @@ describe('GraphVertex - 节点', () => {
 
         expect(vertexA.getDegree()).toBe(2);
 
+        // 重复添加
         vertexA.addEdge(edgeAB);
-        expect(vertexA.getDegree()).toBe(3);
+        expect(vertexA.getDegree()).toBe(2);
 
-        expect(vertexA.getEdges().length).toEqual(3);
+        expect(vertexA.getEdges().length).toEqual(2);
     });
 });

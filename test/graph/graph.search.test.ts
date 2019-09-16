@@ -4,6 +4,7 @@ describe('Graph - BFS & DFS', () => {
   describe('无向图：', () => {
     let graph: Graph;
     let vertexFrom: GraphVertex;
+    let vertexFrom6: GraphVertex;
     beforeAll(() => {
       graph = new Graph();
 
@@ -30,6 +31,7 @@ describe('Graph - BFS & DFS', () => {
         .addEdge(new GraphEdge(vertex6, vertex10));
 
       vertexFrom = vertex1;
+      vertexFrom6 = vertex6;
     });
     it('支持在无向图中以 generator 形式进行 BFS', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
@@ -46,7 +48,7 @@ describe('Graph - BFS & DFS', () => {
       expect(bfsFromFirst.next().value.value).toBe('10');
     });
 
-    it('借助 Array.from 获取 BFS 结果序列', () => {
+    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex1 节点开始', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
       const visitedOrder = Array.from(bfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -63,8 +65,25 @@ describe('Graph - BFS & DFS', () => {
         '10'
       ]);
     });
+    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex6 节点开始', () => {
+      const bfsFromFirst = graph.bfs(vertexFrom6);
+      const visitedOrder = Array.from(bfsFromFirst);
+      const values = visitedOrder.map(node => node.value);
+      expect(values).toEqual([
+        '6',
+        '3',
+        '10',
+        '1',
+        '7',
+        '2',
+        '4',
+        '5',
+        '8',
+        '9'
+      ]);
+    });
 
-    it('借助 Array.from 获取 DFS 结果序列', () => {
+    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex1 节点开始', () => {
       const dfsFromFirst = graph.dfs(vertexFrom);
       const visitedOrder = Array.from(dfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -81,11 +100,29 @@ describe('Graph - BFS & DFS', () => {
         '9'
       ]);
     });
+    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex6 节点开始', () => {
+      const dfsFromFirst = graph.dfs(vertexFrom6);
+      const visitedOrder = Array.from(dfsFromFirst);
+      const values = visitedOrder.map(node => node.value);
+      expect(values).toEqual([
+        '6',
+        '10',
+        '3',
+        '7',
+        '1',
+        '4',
+        '8',
+        '2',
+        '5',
+        '9'
+      ]);
+    });
   });
 
   describe('有向图：', () => {
     let graph: Graph;
     let vertexFrom: GraphVertex;
+    let vertexFrom6: GraphVertex;
     beforeAll(() => {
       graph = new Graph(true);
 
@@ -112,6 +149,7 @@ describe('Graph - BFS & DFS', () => {
         .addEdge(new GraphEdge(vertex6, vertex10));
 
       vertexFrom = vertex1;
+      vertexFrom6 = vertex6;
     });
     it('支持在有向图中以 generator 形式进行 BFS', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
@@ -128,7 +166,7 @@ describe('Graph - BFS & DFS', () => {
       expect(bfsFromFirst.next().value.value).toBe('10');
     });
 
-    it('借助 Array.from 获取 BFS 结果序列', () => {
+    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex1 节点开始', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
       const visitedOrder = Array.from(bfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -146,7 +184,17 @@ describe('Graph - BFS & DFS', () => {
       ]);
     });
 
-    it('借助 Array.from 获取 DFS 结果序列', () => {
+    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex6 节点开始', () => {
+      const bfsFromFirst = graph.bfs(vertexFrom6);
+      const visitedOrder = Array.from(bfsFromFirst);
+      const values = visitedOrder.map(node => node.value);
+      expect(values).toEqual([
+        '6',
+        '10'
+      ]);
+    });
+
+    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex1 节点开始', () => {
       const dfsFromFirst = graph.dfs(vertexFrom);
       const visitedOrder = Array.from(dfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -161,6 +209,16 @@ describe('Graph - BFS & DFS', () => {
         '2',
         '5',
         '9'
+      ]);
+    });
+
+    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex6 节点开始', () => {
+      const dfsFromFirst = graph.dfs(vertexFrom6);
+      const visitedOrder = Array.from(dfsFromFirst);
+      const values = visitedOrder.map(node => node.value);
+      expect(values).toEqual([
+        '6',
+        '10'
       ]);
     });
   });

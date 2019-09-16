@@ -31,8 +31,8 @@
     "release": "standard-version"
   },
   "dependencies": {
-    "ss-comparator": "^1.0.1",
-    "ss-linked-list": "^1.1.4"
+    "ss-queue": "1.0.x",
+    "ss-stack": "1.0.x"
   },
   "devDependencies": {
     "@types/chance": "^1.0.1",

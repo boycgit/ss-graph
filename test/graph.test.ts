@@ -79,6 +79,7 @@ describe('Graph - 图', () => {
         const vertexC = new GraphVertex('C');
 
         const edgeAB = new GraphEdge(vertexA, vertexB, 10);
+        const edgeBA = new GraphEdge(vertexB, vertexA, 10);
 
         graph.addEdge(edgeAB);
 
@@ -90,7 +91,7 @@ describe('Graph - 图', () => {
         expect(graphEdgeAC).toBeNull();
         expect(graphEdgeCA).toBeNull();
         expect(graphEdgeAB).toEqual(edgeAB);
-        expect(graphEdgeBA).toEqual(edgeAB);
+        expect(graphEdgeBA).toEqual(edgeBA);
         expect(graphEdgeAB!.weight).toBe(10);
     });
 

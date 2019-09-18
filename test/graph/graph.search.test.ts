@@ -5,6 +5,7 @@ describe('Graph - BFS & DFS', () => {
     let graph: Graph;
     let vertexFrom: GraphVertex;
     let vertexFrom6: GraphVertex;
+
     beforeAll(() => {
       graph = new Graph();
 
@@ -33,7 +34,7 @@ describe('Graph - BFS & DFS', () => {
       vertexFrom = vertex1;
       vertexFrom6 = vertex6;
     });
-    it('支持在无向图中以 generator 形式进行 BFS', () => {
+    it('[BFS]支持在无向图中以 generator 形式进行', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
 
       expect(bfsFromFirst.next().value.value).toBe('1');
@@ -48,7 +49,7 @@ describe('Graph - BFS & DFS', () => {
       expect(bfsFromFirst.next().value.value).toBe('10');
     });
 
-    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex1 节点开始', () => {
+    it('[BFS]借助 Array.from 获取序列 - 以 vertex1 节点开始', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
       const visitedOrder = Array.from(bfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -65,7 +66,7 @@ describe('Graph - BFS & DFS', () => {
         '10'
       ]);
     });
-    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex6 节点开始', () => {
+    it('[BFS]借助 Array.from 获取序列 - 以 vertex6 节点开始', () => {
       const bfsFromFirst = graph.bfs(vertexFrom6);
       const visitedOrder = Array.from(bfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -83,7 +84,7 @@ describe('Graph - BFS & DFS', () => {
       ]);
     });
 
-    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex1 节点开始', () => {
+    it('[DFS]借助 Array.from 获取序列 - 以 vertex1 节点开始', () => {
       const dfsFromFirst = graph.dfs(vertexFrom);
       const visitedOrder = Array.from(dfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -100,7 +101,7 @@ describe('Graph - BFS & DFS', () => {
         '9'
       ]);
     });
-    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex6 节点开始', () => {
+    it('[DFS]借助 Array.from 获取序列 - 以 vertex6 节点开始', () => {
       const dfsFromFirst = graph.dfs(vertexFrom6);
       const visitedOrder = Array.from(dfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -151,7 +152,7 @@ describe('Graph - BFS & DFS', () => {
       vertexFrom = vertex1;
       vertexFrom6 = vertex6;
     });
-    it('支持在有向图中以 generator 形式进行 BFS', () => {
+    it('[BFS]支持在有向图中以 generator 形式进行', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
 
       expect(bfsFromFirst.next().value.value).toBe('1');
@@ -166,7 +167,7 @@ describe('Graph - BFS & DFS', () => {
       expect(bfsFromFirst.next().value.value).toBe('10');
     });
 
-    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex1 节点开始', () => {
+    it('[BFS]借助 Array.from 获取序列 - 以 vertex1 节点开始', () => {
       const bfsFromFirst = graph.bfs(vertexFrom);
       const visitedOrder = Array.from(bfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -184,17 +185,14 @@ describe('Graph - BFS & DFS', () => {
       ]);
     });
 
-    it('借助 Array.from 获取 BFS 结果序列 - 以 vertex6 节点开始', () => {
+    it('[BFS]借助 Array.from 获取序列 - 以 vertex6 节点开始', () => {
       const bfsFromFirst = graph.bfs(vertexFrom6);
       const visitedOrder = Array.from(bfsFromFirst);
       const values = visitedOrder.map(node => node.value);
-      expect(values).toEqual([
-        '6',
-        '10'
-      ]);
+      expect(values).toEqual(['6', '10']);
     });
 
-    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex1 节点开始', () => {
+    it('[DFS]借助 Array.from 获取序列 - 以 vertex1 节点开始', () => {
       const dfsFromFirst = graph.dfs(vertexFrom);
       const visitedOrder = Array.from(dfsFromFirst);
       const values = visitedOrder.map(node => node.value);
@@ -212,14 +210,11 @@ describe('Graph - BFS & DFS', () => {
       ]);
     });
 
-    it('借助 Array.from 获取 DFS 结果序列 - 以 vertex6 节点开始', () => {
+    it('[DFS]借助 Array.from 获取序列 - 以 vertex6 节点开始', () => {
       const dfsFromFirst = graph.dfs(vertexFrom6);
       const visitedOrder = Array.from(dfsFromFirst);
       const values = visitedOrder.map(node => node.value);
-      expect(values).toEqual([
-        '6',
-        '10'
-      ]);
+      expect(values).toEqual(['6', '10']);
     });
   });
 });

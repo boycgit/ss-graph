@@ -4,6 +4,61 @@ import { GraphEdge } from './edge';
 import { GraphVertex } from './vertex';
 import { invariant } from './lib';
 
+/* ----------------------------------------------------
+    util for find all path
+----------------------------------------------------- */
+
+/**
+ * 根据当前节点构建双栈
+ *
+ * @param {GraphVertex} vertex - 当前节点
+ * @param {Stack<GraphVertex>} mainStack - 主栈
+ * @param {Stack<GraphVertex[]>} neighborStack - 邻接节点栈
+ * @param {Map<string, boolean>} visited - 已访问缓存
+ */
+function buildDualStack(
+  vertex: GraphVertex,
+  mainStack: Stack<GraphVertex>,
+  neighborStack: Stack<GraphVertex[]>,
+  visited: Map<string, boolean>
+) {
+  if (vertex) {
+    mainStack.push(vertex); // 将主节点入栈
+    visited.set(vertex.getKey(), true); // 标记已被访问过
+
+    // 获取 vertex 的邻接节点
+    const neighbors = vertex
+      .getNeighbors()
+      .filter((v: GraphVertex) => !visited.get(v.getKey()));
+    neighborStack.push(neighbors);
+  }
+}
+
+/**
+ * 削减双栈（让双栈都减少一层）
+ *
+ * @param {Stack<GraphVertex>} mainStack
+ * @param {Stack<GraphVertex[]>} neighborStack
+ * @param {Map<string, boolean>} visited
+ */
+function cutdownDualStack(
+  mainStack: Stack<GraphVertex>,
+  neighborStack: Stack<GraphVertex[]>,
+  visited: Map<string, boolean>
+) {
+  // 将目标元素从 mainStack 中弹出，
+  const droppedMain = mainStack.pop();
+
+  // 同时标记当前节点可以再次访问
+  if (droppedMain) {
+    visited.set(droppedMain.getKey(), false);
+  }
+  // 同时一并将 neighborStack 弹出元素
+  neighborStack.pop();
+}
+
+// ==============
+
 export class Graph {
   isDirected: boolean;
   vertices: { [key: string]: GraphVertex };
@@ -317,5 +372,57 @@ export class Graph {
           .forEach((neighbor: GraphVertex) => nodeStack.push(neighbor));
       }
     }
+  }
+
+  *findAllPath(source: GraphVertex, target: GraphVertex) {
+    const path: GraphVertex[] = [];
+    if (source === target) {
+      path.push(source);
+      yield path;
+      return;
+    }
+
+    // 保存访问过的节点
+    const visited = new Map<string, boolean>();
+
+    // 使用双栈法来实现所有链路的查找
+    const mainStack = new Stack<GraphVertex>();
+    const neighborStack = new Stack<GraphVertex[]>();
+
+    buildDualStack(source, mainStack, neighborStack, visited);
+
+    // 监视邻接节点数量
+    while (!mainStack.isEmpty()) {
+      // 将邻接栈的数组先弹出
+      const curNeighbors = neighborStack.pop();
+
+      // 如果邻接栈有元素可用，就将其堆放在 mainStack 上
+      if (curNeighbors && curNeighbors.length) {
+        const nextVertex = curNeighbors.shift();
+        neighborStack.push(curNeighbors); // 将其压栈压回去
+        // 如果存在下一个节点
+        if (nextVertex) {
+          buildDualStack(nextVertex, mainStack, neighborStack, visited);
+        }
+      } else {
+        neighborStack.push(curNeighbors); // 将其压栈压回去，不然接下来的 cutdownDualStack 会导致 pop 两次
+        // 如果邻接节点是空数组，也削减一层
+        cutdownDualStack(mainStack, neighborStack, visited);
+        continue; // 继续下一次循环
+      }
+
+      // 查看 mainStack 栈顶元素
+      const peekNode = mainStack.peek;
+      debugger;
+      // 检查该元素是否是目标节点，则当前 mainStack 就是一条路径
+      if (peekNode === target) {
+        yield mainStack.toArray();
+
+        // 削减一层
+        cutdownDualStack(mainStack, neighborStack, visited);
+      }
+    }
+
+    // 如果迭代完毕 hasTarget 都还是 false，说明没有目标对象；
   }
 }

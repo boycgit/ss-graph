@@ -61,6 +61,9 @@
     "typescript": "^3.5.3",
     "uglify-js": "^3.4.6"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "files": [
     "dist"
   ]
